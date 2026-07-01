@@ -13,11 +13,17 @@ if [ "$2" = "--dry-run" ]; then
     echo "🔍 干运行模式 - 不会实际创建或推送 tag"
 fi
 
-# 验证参数
+# 如果未提供版本号，尝试从 bump-version.sh 自动计算
 if [ -z "$VERSION" ]; then
-    echo "❌ 错误：请提供版本号"
-    echo "用法：$0 v1.0.0 [--dry-run]"
-    exit 1
+    if [ -x "./scripts/bump-version.sh" ]; then
+        VERSION=$(./scripts/bump-version.sh patch)
+        echo "📦 未提供版本号，自动计算：$VERSION"
+    else
+        echo "❌ 错误：请提供版本号"
+        echo "用法：$0 v1.0.0 [--dry-run]"
+        echo "或：$0 [--dry-run]（自动计算下一个 patch 版本）"
+        exit 1
+    fi
 fi
 
 # 验证版本号格式

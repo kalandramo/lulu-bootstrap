@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: '版本号 (如：v1.0.0)'
-        required: true
+        description: '版本号 (如：v1.0.0)，留空则自动计算'
+        required: false
         type: string
       bump_type:
-        description: '自动版本递增类型 (如果不手动指定版本号)'
+        description: '自动版本递增类型 (version 留空时生效)'
         required: false
         type: choice
         options:
@@ -45,12 +45,13 @@ jobs:
         run: |
           if [ -n "${{ github.event.inputs.version }}" ]; then
             VERSION="${{ github.event.inputs.version }}"
+            echo "📦 使用指定版本号：$VERSION"
           else
             BUMP_TYPE="${{ github.event.inputs.bump_type }}"
             VERSION=$(./scripts/bump-version.sh "$BUMP_TYPE")
+            echo "📦 自动计算版本号：$VERSION (bump: $BUMP_TYPE)"
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "📦 版本号：$VERSION"
 
       - name: 验证版本号格式
         run: |
