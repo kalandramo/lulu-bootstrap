@@ -4,8 +4,8 @@ go 1.26.1
 
 require (
 	github.com/cschleiden/go-workflows v1.4.2
-	github.com/kalandramo/lulu-bootstrap v0.0.0-20260626073311-eb65d34d72dc
-	github.com/kalandramo/lulu-bootstrap/conf v0.0.0-20260626073311-eb65d34d72dc
+	github.com/kalandramo/lulu-bootstrap v0.0.5
+	github.com/kalandramo/lulu-bootstrap v0.0.5
 	github.com/kalandramo/lulu-ext/workflow/goworkflows v0.0.0-20260626062056-d444ac1f45f2
 )
 

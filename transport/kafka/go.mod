@@ -4,8 +4,8 @@ go 1.26.1
 
 require (
 	github.com/kalandramo/lulu v0.0.0-20260617094710-09209c191f62
-	github.com/kalandramo/lulu-bootstrap v0.0.0-20260626073311-eb65d34d72dc
-	github.com/kalandramo/lulu-bootstrap/conf v0.0.0-20260626073311-eb65d34d72dc
+	github.com/kalandramo/lulu-bootstrap v0.0.5
+	github.com/kalandramo/lulu-bootstrap v0.0.5
 	github.com/kalandramo/lulu-ext/transport/kafka v0.0.0-20260630100316-0f11b48c33bc
 )
 

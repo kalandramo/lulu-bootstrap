@@ -3,8 +3,8 @@ module github.com/kalandramo/lulu-bootstrap/database/elasticsearch
 go 1.26.1
 
 require (
-	github.com/kalandramo/lulu-bootstrap v0.0.0-20260626073311-eb65d34d72dc
-	github.com/kalandramo/lulu-bootstrap/conf v0.0.0-20260626073311-eb65d34d72dc
+	github.com/kalandramo/lulu-bootstrap v0.0.5
+	github.com/kalandramo/lulu-bootstrap v0.0.5
 	github.com/tx7do/go-crud/elasticsearch v0.0.10
 )
 

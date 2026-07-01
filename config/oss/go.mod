@@ -6,8 +6,8 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.42.0
 	github.com/aws/aws-sdk-go-v2/config v1.32.26
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.104.1
-	github.com/kalandramo/lulu-bootstrap v0.0.0-20260626073311-eb65d34d72dc
-	github.com/kalandramo/lulu-bootstrap/conf v0.0.0-20260626073311-eb65d34d72dc
+	github.com/kalandramo/lulu-bootstrap v0.0.5
+	github.com/kalandramo/lulu-bootstrap v0.0.5
 	github.com/kalandramo/lulu-ext/config/oss v0.0.0-20260630100316-0f11b48c33bc
 )
 
