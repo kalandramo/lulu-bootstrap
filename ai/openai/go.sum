@@ -1,0 +1,14 @@
+github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=
+github.com/google/go-cmp v0.7.0/go.mod h1:pXiqmnSA92OHEEa9HXL2W4E7lf9JzCmGVUdgjX3N/iU=
+github.com/kalandramo/lulu v0.0.0-20260617094710-09209c191f62 h1:j+tjFrH54U6+LO7Ve7nP3MCHR/bR9VnE/52zlD8C60I=
+github.com/kalandramo/lulu v0.0.0-20260617094710-09209c191f62/go.mod h1:CU5gA+bQr52RYV7fdkEtt2rnoeU3qxGCeBseyQmo73Q=
+github.com/kalandramo/lulu-bootstrap v0.0.0-20260626073311-eb65d34d72dc h1:qfQRqtm+8c/eyOBRNP8nMpoKiKxcBeCL82vSwaS7PHE=
+github.com/kalandramo/lulu-bootstrap v0.0.0-20260626073311-eb65d34d72dc/go.mod h1:CUXPe7OYE94OgP2SatmNpJnTqlf4HzaBhbdoJzR1g3I=
+github.com/kalandramo/lulu-bootstrap/conf v0.0.0-20260626073311-eb65d34d72dc h1:7ERGanS7we2nkS8YaK7jQye4ImgmJkPUxo4HqO4avq4=
+github.com/kalandramo/lulu-bootstrap/conf v0.0.0-20260626073311-eb65d34d72dc/go.mod h1:kT9LMoJYU4LskqcENGmEQl4o3gIDpih5nNP6bcIdn3s=
+github.com/kalandramo/lulu-ext/ai/openai v0.0.0-20260626062056-d444ac1f45f2 h1:M8qMIP72Bq2ETJo8OEchwtHcGlsrX43kxeg3Fqu36U0=
+github.com/kalandramo/lulu-ext/ai/openai v0.0.0-20260626062056-d444ac1f45f2/go.mod h1:chmqjr8gmh1+LATkKDDSOAsvRao+VgzLCm8C/eWyv9w=
+github.com/sashabaranov/go-openai v1.41.2 h1:vfPRBZNMpnqu8ELsclWcAvF19lDNgh1t6TVfFFOPiSM=
+github.com/sashabaranov/go-openai v1.41.2/go.mod h1:lj5b/K+zjTSFxVLijLSTDZuP7adOgerWeFyZLUhAKRg=
+google.golang.org/protobuf v1.36.11 h1:fV6ZwhNocDyBLK0dj+fg8ektcVegBBuEolpbTQyBNVE=
+google.golang.org/protobuf v1.36.11/go.mod h1:HTf+CrKn2C3g5S8VImy6tdcUvCska2kB7j23XfzDpco=

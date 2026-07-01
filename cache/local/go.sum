@@ -2,7 +2,17 @@ github.com/cespare/xxhash/v2 v2.1.2 h1:YRXhKfTDauu4ajMg1TPgFO5jnlC2HCbmLXMcTG5cb
 github.com/cespare/xxhash/v2 v2.1.2/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/coocood/freecache v1.2.7 h1:IDP0x1Yg8sgRmsSWzFyhaB+amYJpKS7v5QIXNHxXvM8=
 github.com/coocood/freecache v1.2.7/go.mod h1:+Ga2+A5/0D6MMistGuoeKZaZucAGZ56u+fYKiY+xqNA=
+github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=
+github.com/google/go-cmp v0.7.0/go.mod h1:pXiqmnSA92OHEEa9HXL2W4E7lf9JzCmGVUdgjX3N/iU=
+github.com/kalandramo/lulu v0.0.0-20260617094710-09209c191f62 h1:j+tjFrH54U6+LO7Ve7nP3MCHR/bR9VnE/52zlD8C60I=
+github.com/kalandramo/lulu v0.0.0-20260617094710-09209c191f62/go.mod h1:CU5gA+bQr52RYV7fdkEtt2rnoeU3qxGCeBseyQmo73Q=
+github.com/kalandramo/lulu-bootstrap v0.0.0-20260626073311-eb65d34d72dc h1:qfQRqtm+8c/eyOBRNP8nMpoKiKxcBeCL82vSwaS7PHE=
+github.com/kalandramo/lulu-bootstrap v0.0.0-20260626073311-eb65d34d72dc/go.mod h1:CUXPe7OYE94OgP2SatmNpJnTqlf4HzaBhbdoJzR1g3I=
+github.com/kalandramo/lulu-bootstrap/conf v0.0.0-20260626073311-eb65d34d72dc h1:7ERGanS7we2nkS8YaK7jQye4ImgmJkPUxo4HqO4avq4=
+github.com/kalandramo/lulu-bootstrap/conf v0.0.0-20260626073311-eb65d34d72dc/go.mod h1:kT9LMoJYU4LskqcENGmEQl4o3gIDpih5nNP6bcIdn3s=
 github.com/kalandramo/lulu-ext/cache v0.0.0-20260626042247-1127e2133169 h1:30mV923+wGICPjxWSY5gVV0n6CQA6LMmXWD+Is1btbE=
 github.com/kalandramo/lulu-ext/cache v0.0.0-20260626042247-1127e2133169/go.mod h1:x/VBCsvLCshy40sAPQgsanrHKzL5hR2SJEkQbCvnLGo=
 github.com/kalandramo/lulu-ext/cache/local v0.0.0-20260626062056-d444ac1f45f2 h1:ZgggUKlfjmkoA8q8vBbKwVfGhlLoNOOliUWh1aNL7HE=
 github.com/kalandramo/lulu-ext/cache/local v0.0.0-20260626062056-d444ac1f45f2/go.mod h1:i6djykEH8iM1B1hXbx+SADLQRm8XRqdXEfZiGdxSyPs=
+google.golang.org/protobuf v1.36.11 h1:fV6ZwhNocDyBLK0dj+fg8ektcVegBBuEolpbTQyBNVE=
+google.golang.org/protobuf v1.36.11/go.mod h1:HTf+CrKn2C3g5S8VImy6tdcUvCska2kB7j23XfzDpco=

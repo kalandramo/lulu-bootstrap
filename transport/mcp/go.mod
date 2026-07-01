@@ -1,3 +1,21 @@
 module github.com/kalandramo/lulu-bootstrap/transport/mcp
 
 go 1.26.1
+
+require (
+	github.com/kalandramo/lulu v0.0.0-20260617094710-09209c191f62
+	github.com/kalandramo/lulu-bootstrap v0.0.0-20260626073311-eb65d34d72dc
+	github.com/kalandramo/lulu-bootstrap/conf v0.0.0-20260626073311-eb65d34d72dc
+	github.com/kalandramo/lulu-ext/transport/mcp v0.0.0-20260626091828-96ffead8df6c
+)
+
+require (
+	github.com/google/jsonschema-go v0.4.2 // indirect
+	github.com/google/uuid v1.6.0 // indirect
+	github.com/mark3labs/mcp-go v0.55.1 // indirect
+	github.com/santhosh-tekuri/jsonschema/v6 v6.0.2 // indirect
+	github.com/spf13/cast v1.7.1 // indirect
+	github.com/yosida95/uritemplate/v3 v3.0.2 // indirect
+	golang.org/x/text v0.14.0 // indirect
+	google.golang.org/protobuf v1.36.11 // indirect
+)
