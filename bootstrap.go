@@ -49,12 +49,8 @@ func Bootstrap(ctx context.Context, cfg *v1.BootstrapConfig) (*lulu.App, map[str
 	var (
 		opts          []lulu.Option
 		cleanup       = func() {}
-		brokers       map[string]any
 		storages      map[string]any
-		aiClients     map[string]any
-		workflows     map[string]any
 		caches        map[string]any
-		scriptEngines map[string]any
 		databases     map[string]any
 	)
 
@@ -90,18 +86,6 @@ func Bootstrap(ctx context.Context, cfg *v1.BootstrapConfig) (*lulu.App, map[str
 		if srvCleanup != nil {
 			prev := cleanup
 			cleanup = func() { srvCleanup(); prev() }
-		}
-	}
-
-	// 4. Registry — wire BeforeStop for deregistration.
-	if regCfg := cfg.GetRegistry(); regCfg != nil {
-		regCleanup, err := resolveRegistry(ctx, regCfg, cfg.GetApp())
-		if err != nil {
-			return nil, nil, nil, nil, nil, nil, nil, nil, nil, fmt.Errorf("bootstrap: resolve registry: %w", err)
-		}
-		if regCleanup != nil {
-			prev := cleanup
-			cleanup = func() { regCleanup(); prev() }
 		}
 	}
 
@@ -141,19 +125,6 @@ func Bootstrap(ctx context.Context, cfg *v1.BootstrapConfig) (*lulu.App, map[str
 		}
 	}
 
-	// 8. Broker.
-	if brokerCfg := cfg.GetBroker(); brokerCfg != nil {
-		inst, brokerCleanup, err := resolveBroker(ctx, brokerCfg)
-		if err != nil {
-			return nil, nil, nil, nil, nil, nil, nil, nil, nil, fmt.Errorf("bootstrap: resolve broker: %w", err)
-		}
-		brokers = inst
-		if brokerCleanup != nil {
-			prev := cleanup
-			cleanup = func() { brokerCleanup(); prev() }
-		}
-	}
-
 	// 9. Storage.
 	if storageCfg := cfg.GetStorage(); storageCfg != nil {
 		inst, storageCleanup, err := resolveStorage(ctx, storageCfg)
@@ -164,32 +135,6 @@ func Bootstrap(ctx context.Context, cfg *v1.BootstrapConfig) (*lulu.App, map[str
 		if storageCleanup != nil {
 			prev := cleanup
 			cleanup = func() { storageCleanup(); prev() }
-		}
-	}
-
-	// 10. AI.
-	if aiCfg := cfg.GetAi(); aiCfg != nil {
-		inst, aiCleanup, err := resolveAi(ctx, aiCfg)
-		if err != nil {
-			return nil, nil, nil, nil, nil, nil, nil, nil, nil, fmt.Errorf("bootstrap: resolve ai: %w", err)
-		}
-		aiClients = inst
-		if aiCleanup != nil {
-			prev := cleanup
-			cleanup = func() { aiCleanup(); prev() }
-		}
-	}
-
-	// 11. Workflow.
-	if wfCfg := cfg.GetWorkflow(); wfCfg != nil {
-		inst, wfCleanup, err := resolveWorkflow(ctx, wfCfg)
-		if err != nil {
-			return nil, nil, nil, nil, nil, nil, nil, nil, nil, fmt.Errorf("bootstrap: resolve workflow: %w", err)
-		}
-		workflows = inst
-		if wfCleanup != nil {
-			prev := cleanup
-			cleanup = func() { wfCleanup(); prev() }
 		}
 	}
 

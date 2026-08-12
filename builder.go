@@ -25,13 +25,6 @@ type ServerBuilder func(cfg *v1.Server) (transport.Server, error)
 // LogBuilder builds a [log.Logger] from a [Logger] config.
 type LogBuilder func(cfg *v1.Logger) (log.Logger, func(), error)
 
-// RegistryAction performs registration/deregistration lifecycle.
-//
-// The cfg parameter carries the full registry configuration so that
-// the action can extract its own sub-configuration.
-// Deprecated: Use RegisterRegistryAction with the new signature instead.
-type RegistryAction func(ctx context.Context, appCfg *v1.App, endpoints []string, cfg *v1.Registry) (func(), error)
-
 // ConfigAction performs config source loading/watching.
 type ConfigAction func(ctx context.Context, cfg *v1.Config) (func(), error)
 
@@ -41,14 +34,6 @@ type TracerBuilder func(cfg *v1.Tracer) (interface{}, func(), error)
 // MetricsBuilder builds a metrics backend.
 type MetricsBuilder func(cfg *v1.Metrics) (func(), error)
 
-// BrokerBuilder builds a broker instance and returns it along with an optional
-// cleanup function. The returned instance (any) is the concrete broker object
-// that callers can use for Publish/Subscribe operations.
-//
-// The type key (e.g. "kafka", "rabbitmq") is used to look up the instance
-// via [Context.Broker] after bootstrap.
-type BrokerBuilder func(ctx context.Context, cfg *v1.Broker) (any, func(), error)
-
 // StorageBuilder builds a storage client instance and returns it along with an
 // optional cleanup function. The returned instance (any) is the concrete
 // storage client that callers can use for object operations.
@@ -57,21 +42,9 @@ type BrokerBuilder func(ctx context.Context, cfg *v1.Broker) (any, func(), error
 // via [Context.Storage] after bootstrap.
 type StorageBuilder func(ctx context.Context, cfg *v1.Storage) (any, func(), error)
 
-// AiBuilder builds an AI model client and returns it along with an optional
-// cleanup function.
-type AiBuilder func(ctx context.Context, cfg *v1.Ai) (any, func(), error)
-
-// WorkflowBuilder builds a workflow engine client and returns it along with
-// an optional cleanup function.
-type WorkflowBuilder func(ctx context.Context, cfg *v1.Workflow) (any, func(), error)
-
 // CacheBuilder builds a cache instance and returns it along with an optional
 // cleanup function.
 type CacheBuilder func(ctx context.Context, cfg *v1.Cache) (any, func(), error)
-
-// ScriptEngineBuilder builds a script engine instance and returns it along with
-// an optional cleanup function.
-type ScriptEngineBuilder func(ctx context.Context, cfg *v1.Script) (any, func(), error)
 
 // DatabaseBuilder builds a database client instance and returns it along with
 // an optional cleanup function.
@@ -83,16 +56,11 @@ var (
 	mu                   sync.RWMutex
 	serverBuilders       = map[string]ServerBuilder{}
 	logBuilders          = map[string]LogBuilder{}
-	registryActions      = map[string]RegistryAction{}
 	configActions        = map[string]ConfigAction{}
 	tracerBuilders       = map[string]TracerBuilder{}
 	metricsBuilders      = map[string]MetricsBuilder{}
-	brokerBuilders       = map[string]BrokerBuilder{}
 	storageBuilders      = map[string]StorageBuilder{}
-	aiBuilders           = map[string]AiBuilder{}
-	workflowBuilders     = map[string]WorkflowBuilder{}
 	cacheBuilders        = map[string]CacheBuilder{}
-	scriptEngineBuilders = map[string]ScriptEngineBuilder{}
 	databaseBuilders     = map[string]DatabaseBuilder{}
 )
 
@@ -142,30 +110,6 @@ func RegisterLogBuilder(typ string, b LogBuilder) error {
 // MustRegisterLogBuilder panics on error.
 func MustRegisterLogBuilder(typ string, b LogBuilder) {
 	if err := RegisterLogBuilder(typ, b); err != nil {
-		panic(err)
-	}
-}
-
-// RegisterRegistryAction registers a registry action for the given type string.
-func RegisterRegistryAction(typ string, a RegistryAction) error {
-	if typ == "" {
-		return fmt.Errorf("bootstrap: type is empty")
-	}
-	if a == nil {
-		return fmt.Errorf("bootstrap: factory is nil")
-	}
-	mu.Lock()
-	defer mu.Unlock()
-	if _, ok := registryActions[typ]; ok {
-		return fmt.Errorf("bootstrap: registry action %q already registered", typ)
-	}
-	registryActions[typ] = a
-	return nil
-}
-
-// MustRegisterRegistryAction panics on error.
-func MustRegisterRegistryAction(typ string, a RegistryAction) {
-	if err := RegisterRegistryAction(typ, a); err != nil {
 		panic(err)
 	}
 }
@@ -242,30 +186,6 @@ func MustRegisterMetricsBuilder(typ string, b MetricsBuilder) {
 	}
 }
 
-// RegisterBrokerBuilder registers a broker builder for the given type string.
-func RegisterBrokerBuilder(typ string, b BrokerBuilder) error {
-	if typ == "" {
-		return fmt.Errorf("bootstrap: type is empty")
-	}
-	if b == nil {
-		return fmt.Errorf("bootstrap: factory is nil")
-	}
-	mu.Lock()
-	defer mu.Unlock()
-	if _, ok := brokerBuilders[typ]; ok {
-		return fmt.Errorf("bootstrap: broker builder %q already registered", typ)
-	}
-	brokerBuilders[typ] = b
-	return nil
-}
-
-// MustRegisterBrokerBuilder panics on error.
-func MustRegisterBrokerBuilder(typ string, b BrokerBuilder) {
-	if err := RegisterBrokerBuilder(typ, b); err != nil {
-		panic(err)
-	}
-}
-
 // RegisterStorageBuilder registers a storage builder for the given type string.
 func RegisterStorageBuilder(typ string, b StorageBuilder) error {
 	if typ == "" {
@@ -290,54 +210,6 @@ func MustRegisterStorageBuilder(typ string, b StorageBuilder) {
 	}
 }
 
-// RegisterAiBuilder registers an AI builder for the given type string.
-func RegisterAiBuilder(typ string, b AiBuilder) error {
-	if typ == "" {
-		return fmt.Errorf("bootstrap: type is empty")
-	}
-	if b == nil {
-		return fmt.Errorf("bootstrap: factory is nil")
-	}
-	mu.Lock()
-	defer mu.Unlock()
-	if _, ok := aiBuilders[typ]; ok {
-		return fmt.Errorf("bootstrap: ai builder %q already registered", typ)
-	}
-	aiBuilders[typ] = b
-	return nil
-}
-
-// MustRegisterAiBuilder panics on error.
-func MustRegisterAiBuilder(typ string, b AiBuilder) {
-	if err := RegisterAiBuilder(typ, b); err != nil {
-		panic(err)
-	}
-}
-
-// RegisterWorkflowBuilder registers a workflow builder for the given type string.
-func RegisterWorkflowBuilder(typ string, b WorkflowBuilder) error {
-	if typ == "" {
-		return fmt.Errorf("bootstrap: type is empty")
-	}
-	if b == nil {
-		return fmt.Errorf("bootstrap: factory is nil")
-	}
-	mu.Lock()
-	defer mu.Unlock()
-	if _, ok := workflowBuilders[typ]; ok {
-		return fmt.Errorf("bootstrap: workflow builder %q already registered", typ)
-	}
-	workflowBuilders[typ] = b
-	return nil
-}
-
-// MustRegisterWorkflowBuilder panics on error.
-func MustRegisterWorkflowBuilder(typ string, b WorkflowBuilder) {
-	if err := RegisterWorkflowBuilder(typ, b); err != nil {
-		panic(err)
-	}
-}
-
 // RegisterCacheBuilder registers a cache builder for the given type string.
 func RegisterCacheBuilder(typ string, b CacheBuilder) error {
 	if typ == "" {
@@ -358,30 +230,6 @@ func RegisterCacheBuilder(typ string, b CacheBuilder) error {
 // MustRegisterCacheBuilder panics on error.
 func MustRegisterCacheBuilder(typ string, b CacheBuilder) {
 	if err := RegisterCacheBuilder(typ, b); err != nil {
-		panic(err)
-	}
-}
-
-// RegisterScriptEngineBuilder registers a script engine builder for the given type string.
-func RegisterScriptEngineBuilder(typ string, b ScriptEngineBuilder) error {
-	if typ == "" {
-		return fmt.Errorf("bootstrap: type is empty")
-	}
-	if b == nil {
-		return fmt.Errorf("bootstrap: factory is nil")
-	}
-	mu.Lock()
-	defer mu.Unlock()
-	if _, ok := scriptEngineBuilders[typ]; ok {
-		return fmt.Errorf("bootstrap: script engine builder %q already registered", typ)
-	}
-	scriptEngineBuilders[typ] = b
-	return nil
-}
-
-// MustRegisterScriptEngineBuilder panics on error.
-func MustRegisterScriptEngineBuilder(typ string, b ScriptEngineBuilder) {
-	if err := RegisterScriptEngineBuilder(typ, b); err != nil {
 		panic(err)
 	}
 }
@@ -432,16 +280,6 @@ func getLogBuilder(typ string) (LogBuilder, error) {
 	return b, nil
 }
 
-func getRegistryAction(typ string) (RegistryAction, error) {
-	mu.RLock()
-	defer mu.RUnlock()
-	a, ok := registryActions[typ]
-	if !ok {
-		return nil, fmt.Errorf("bootstrap: no registry action registered for %q", typ)
-	}
-	return a, nil
-}
-
 func getConfigAction(typ string) (ConfigAction, error) {
 	mu.RLock()
 	defer mu.RUnlock()
@@ -472,16 +310,6 @@ func getMetricsBuilder(typ string) (MetricsBuilder, error) {
 	return b, nil
 }
 
-func getBrokerBuilder(typ string) (BrokerBuilder, error) {
-	mu.RLock()
-	defer mu.RUnlock()
-	b, ok := brokerBuilders[typ]
-	if !ok {
-		return nil, fmt.Errorf("bootstrap: no broker builder registered for %q", typ)
-	}
-	return b, nil
-}
-
 func getStorageBuilder(typ string) (StorageBuilder, error) {
 	mu.RLock()
 	defer mu.RUnlock()
@@ -492,42 +320,12 @@ func getStorageBuilder(typ string) (StorageBuilder, error) {
 	return b, nil
 }
 
-func getAiBuilder(typ string) (AiBuilder, error) {
-	mu.RLock()
-	defer mu.RUnlock()
-	b, ok := aiBuilders[typ]
-	if !ok {
-		return nil, fmt.Errorf("bootstrap: no ai builder registered for %q", typ)
-	}
-	return b, nil
-}
-
-func getWorkflowBuilder(typ string) (WorkflowBuilder, error) {
-	mu.RLock()
-	defer mu.RUnlock()
-	b, ok := workflowBuilders[typ]
-	if !ok {
-		return nil, fmt.Errorf("bootstrap: no workflow builder registered for %q", typ)
-	}
-	return b, nil
-}
-
 func getCacheBuilder(typ string) (CacheBuilder, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 	b, ok := cacheBuilders[typ]
 	if !ok {
 		return nil, fmt.Errorf("bootstrap: no cache builder registered for %q", typ)
-	}
-	return b, nil
-}
-
-func getScriptEngineBuilder(typ string) (ScriptEngineBuilder, error) {
-	mu.RLock()
-	defer mu.RUnlock()
-	b, ok := scriptEngineBuilders[typ]
-	if !ok {
-		return nil, fmt.Errorf("bootstrap: no script engine builder registered for %q", typ)
 	}
 	return b, nil
 }
@@ -562,18 +360,6 @@ func ListLogBuilders() []string {
 	defer mu.RUnlock()
 	names := make([]string, 0, len(logBuilders))
 	for k := range logBuilders {
-		names = append(names, k)
-	}
-	sort.Strings(names)
-	return names
-}
-
-// ListRegistryActions returns all registered registry type names.
-func ListRegistryActions() []string {
-	mu.RLock()
-	defer mu.RUnlock()
-	names := make([]string, 0, len(registryActions))
-	for k := range registryActions {
 		names = append(names, k)
 	}
 	sort.Strings(names)
@@ -616,18 +402,6 @@ func ListMetricsBuilders() []string {
 	return names
 }
 
-// ListBrokerBuilders returns all registered broker type names.
-func ListBrokerBuilders() []string {
-	mu.RLock()
-	defer mu.RUnlock()
-	names := make([]string, 0, len(brokerBuilders))
-	for k := range brokerBuilders {
-		names = append(names, k)
-	}
-	sort.Strings(names)
-	return names
-}
-
 // ListStorageBuilders returns all registered storage type names.
 func ListStorageBuilders() []string {
 	mu.RLock()
@@ -640,48 +414,12 @@ func ListStorageBuilders() []string {
 	return names
 }
 
-// ListAiBuilders returns all registered AI type names.
-func ListAiBuilders() []string {
-	mu.RLock()
-	defer mu.RUnlock()
-	names := make([]string, 0, len(aiBuilders))
-	for k := range aiBuilders {
-		names = append(names, k)
-	}
-	sort.Strings(names)
-	return names
-}
-
-// ListWorkflowBuilders returns all registered workflow type names.
-func ListWorkflowBuilders() []string {
-	mu.RLock()
-	defer mu.RUnlock()
-	names := make([]string, 0, len(workflowBuilders))
-	for k := range workflowBuilders {
-		names = append(names, k)
-	}
-	sort.Strings(names)
-	return names
-}
-
 // ListCacheBuilders returns all registered cache type names.
 func ListCacheBuilders() []string {
 	mu.RLock()
 	defer mu.RUnlock()
 	names := make([]string, 0, len(cacheBuilders))
 	for k := range cacheBuilders {
-		names = append(names, k)
-	}
-	sort.Strings(names)
-	return names
-}
-
-// ListScriptEngineBuilders returns all registered script engine type names.
-func ListScriptEngineBuilders() []string {
-	mu.RLock()
-	defer mu.RUnlock()
-	names := make([]string, 0, len(scriptEngineBuilders))
-	for k := range scriptEngineBuilders {
 		names = append(names, k)
 	}
 	sort.Strings(names)

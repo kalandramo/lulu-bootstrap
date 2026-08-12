@@ -25,27 +25,6 @@ func resolveDatabase(ctx context.Context, cfg *v1.Database) (map[string]any, fun
 		}
 		fields = append(fields, field{name: DatabaseTypeGorm, builder: b})
 	}
-	if cfg.GetMongodb() != nil {
-		b, err := getDatabaseBuilder(DatabaseTypeMongodb)
-		if err != nil {
-			return nil, nil, err
-		}
-		fields = append(fields, field{name: DatabaseTypeMongodb, builder: b})
-	}
-	if cfg.GetClickhouse() != nil {
-		b, err := getDatabaseBuilder(DatabaseTypeClickhouse)
-		if err != nil {
-			return nil, nil, err
-		}
-		fields = append(fields, field{name: DatabaseTypeClickhouse, builder: b})
-	}
-	if cfg.GetDoris() != nil {
-		b, err := getDatabaseBuilder(DatabaseTypeDoris)
-		if err != nil {
-			return nil, nil, err
-		}
-		fields = append(fields, field{name: DatabaseTypeDoris, builder: b})
-	}
 	if cfg.GetElasticsearch() != nil {
 		b, err := getDatabaseBuilder(DatabaseTypeElasticsearch)
 		if err != nil {
@@ -53,28 +32,7 @@ func resolveDatabase(ctx context.Context, cfg *v1.Database) (map[string]any, fun
 		}
 		fields = append(fields, field{name: DatabaseTypeElasticsearch, builder: b})
 	}
-	if cfg.GetOpensearch() != nil {
-		b, err := getDatabaseBuilder(DatabaseTypeOpensearch)
-		if err != nil {
-			return nil, nil, err
-		}
-		fields = append(fields, field{name: DatabaseTypeOpensearch, builder: b})
-	}
-	if cfg.GetInfluxdb() != nil {
-		b, err := getDatabaseBuilder(DatabaseTypeInfluxdb)
-		if err != nil {
-			return nil, nil, err
-		}
-		fields = append(fields, field{name: DatabaseTypeInfluxdb, builder: b})
-	}
-	if cfg.GetCassandra() != nil {
-		b, err := getDatabaseBuilder(DatabaseTypeCassandra)
-		if err != nil {
-			return nil, nil, err
-		}
-		fields = append(fields, field{name: DatabaseTypeCassandra, builder: b})
-	}
-
+	
 	if len(fields) == 0 {
 		return nil, nil, nil
 	}

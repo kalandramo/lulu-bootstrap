@@ -21,38 +21,6 @@ func resolveServer(cfg *v1.Server) ([]transport.Server, func(), error) {
 	}
 	fields := []fieldBuilder{
 		{"http", serverTypeHTTP, cfg.GetHttp() != nil},
-		{"http3", serverTypeHTTP3, cfg.GetHttp3() != nil},
-		{"grpc", serverTypeGRPC, cfg.GetGrpc() != nil},
-		{"graphql", serverTypeGraphQL, cfg.GetGraphql() != nil},
-		{"sse", serverTypeSSE, cfg.GetSse() != nil},
-		{"websocket", serverTypeWebsocket, cfg.GetWebsocket() != nil},
-		{"tcp", serverTypeTCP, cfg.GetTcp() != nil},
-		{"udp", serverTypeUDP, cfg.GetUdp() != nil},
-		{"kcp", serverTypeKCP, cfg.GetKcp() != nil},
-		{"thrift", serverTypeThrift, cfg.GetThrift() != nil},
-		{"trpc", serverTypeTRPC, cfg.GetTrpc() != nil},
-		{"webtransport", serverTypeWebtransport, cfg.GetWebtransport() != nil},
-		{"cron", serverTypeCron, cfg.GetCron() != nil},
-		{"hptimer", serverTypeHPTimer, cfg.GetHptimer() != nil},
-		{"mcp", serverTypeMCP, cfg.GetMcp() != nil},
-		{"signalr", serverTypeSignalR, cfg.GetSignalr() != nil},
-		{"socketio", serverTypeSocketIO, cfg.GetSocketio() != nil},
-		{"webrtc", serverTypeWebRTC, cfg.GetWebrtc() != nil},
-		{"asynq", serverTypeAsynq, cfg.GetAsynq() != nil},
-		{"machinery", serverTypeMachinery, cfg.GetMachinery() != nil},
-
-		// Broker-based servers.
-		{"kafka", serverTypeKafka, cfg.GetKafka() != nil},
-		{"rabbitmq", serverTypeRabbitMQ, cfg.GetRabbitmq() != nil},
-		{"redis", serverTypeRedis, cfg.GetRedisServer() != nil},
-		{"nats", serverTypeNATS, cfg.GetNats() != nil},
-		{"mqtt", serverTypeMQTT, cfg.GetMqtt() != nil},
-		{"pulsar", serverTypePulsar, cfg.GetPulsar() != nil},
-		{"activemq", serverTypeActiveMQ, cfg.GetActivemq() != nil},
-		{"azuresb", serverTypeAzureSB, cfg.GetAzuresb() != nil},
-		{"nsq", serverTypeNSQ, cfg.GetNsq() != nil},
-		{"rocketmq", serverTypeRocketMQ, cfg.GetRocketmq() != nil},
-		{"sqs", serverTypeSQS, cfg.GetSqs() != nil},
 	}
 
 	for _, f := range fields {
@@ -78,35 +46,4 @@ func resolveServer(cfg *v1.Server) ([]transport.Server, func(), error) {
 // 内部常量，用于 server builder 注册的 key。
 const (
 	serverTypeHTTP         = "http"
-	serverTypeHTTP3        = "http3"
-	serverTypeGRPC         = "grpc"
-	serverTypeGraphQL      = "graphql"
-	serverTypeSSE          = "sse"
-	serverTypeWebsocket    = "websocket"
-	serverTypeTCP          = "tcp"
-	serverTypeUDP          = "udp"
-	serverTypeKCP          = "kcp"
-	serverTypeThrift       = "thrift"
-	serverTypeTRPC         = "trpc"
-	serverTypeWebtransport = "webtransport"
-	serverTypeCron         = "cron"
-	serverTypeHPTimer      = "hptimer"
-	serverTypeMCP          = "mcp"
-	serverTypeSignalR      = "signalr"
-	serverTypeSocketIO     = "socketio"
-	serverTypeWebRTC       = "webrtc"
-	serverTypeAsynq        = "asynq"
-	serverTypeMachinery    = "machinery"
-
-	serverTypeKafka    = "kafka"
-	serverTypeRabbitMQ = "rabbitmq"
-	serverTypeRedis    = "redis"
-	serverTypeNATS     = "nats"
-	serverTypeMQTT     = "mqtt"
-	serverTypePulsar   = "pulsar"
-	serverTypeActiveMQ = "activemq"
-	serverTypeAzureSB  = "azuresb"
-	serverTypeNSQ      = "nsq"
-	serverTypeRocketMQ = "rocketmq"
-	serverTypeSQS      = "sqs"
 )

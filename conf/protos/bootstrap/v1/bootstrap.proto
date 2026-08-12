@@ -5,16 +5,11 @@ package bootstrap.v1;
 import "bootstrap/v1/app.proto";
 import "bootstrap/v1/server.proto";
 import "bootstrap/v1/config.proto";
-import "bootstrap/v1/registry.proto";
 import "bootstrap/v1/log.proto";
 import "bootstrap/v1/tracer.proto";
 import "bootstrap/v1/metrics.proto";
-import "bootstrap/v1/broker.proto";
 import "bootstrap/v1/storage.proto";
-import "bootstrap/v1/ai.proto";
-import "bootstrap/v1/workflow.proto";
 import "bootstrap/v1/cache.proto";
-import "bootstrap/v1/script.proto";
 import "bootstrap/v1/database.proto";
 
 option go_package = "github.com/kalandramo/lulu-bootstrap/conf/gen/go/bootstrap/v1";
@@ -32,36 +27,21 @@ message BootstrapConfig {
   // 配置中心，支持通过 optional 字段同时配置多种配置源（混合配置）。
   Config config = 3;
 
-  // 服务注册发现。
-  Registry registry = 4;
-
   // 日志系统。
-  Logger logger = 5;
+  Logger logger = 4;
 
   // 分布式追踪。
-  Tracer tracer = 6;
+  Tracer tracer = 5;
 
   // 指标监控。
-  Metrics metrics = 7;
-
-  // 消息代理，支持通过 optional 字段同时配置多种消息中间件。
-  Broker broker = 8;
+  Metrics metrics = 6;
 
   // 对象存储，支持 MinIO / S3。
-  Storage storage = 9;
-
-  // AI 模型客户端，支持 OpenAI / LangChainGo / Eino。
-  Ai ai = 10;
-
-  // 工作流引擎，支持 Temporal / Argo / Conductor / GoWorkflows。
-  Workflow workflow = 11;
+  Storage storage = 7;
 
   // 缓存，支持 Local（内存）/ Redis。
-  Cache cache = 12;
+  Cache cache = 8;
 
-  // 脚本引擎，支持 Lua / JavaScript / Python / CEL / Expr 等。
-  Script script = 13;
-
-  // 数据库，支持 GORM / MongoDB / ClickHouse / Doris / ES / OpenSearch / InfluxDB / Cassandra。
-  Database database = 14;
+  // 数据库，支持 GORM / ES 。
+  Database database = 9;
 }
